@@ -1,0 +1,30 @@
+{
+	"apiVersion": 2,
+	"name": "smntcs/weather-block",
+	"version": "0.1.0",
+	"title": "SMNTCS Weather Block",
+	"category": "widgets",
+	"icon": "carrot",
+	"description": "Show the weather for a certain location.",
+	"supports": {
+		"html": false
+	},
+	"attributes": {
+		"appid": {
+			"type": "string",
+			"default": "927a4aa2d2699fb13085066370c76d9b"
+		},
+		"unit": {
+			"type": "string",
+			"default": "metric"
+		},
+		"city": {
+			"type": "string",
+			"default": "Berlin"
+		}
+	},
+	"textdomain": "smntcs-weather-block",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css"
+}

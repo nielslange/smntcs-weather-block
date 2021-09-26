@@ -1,0 +1,32 @@
+{
+	"name": "@smntcs/weather-block",
+	"title": "SMNTCS Weather Block",
+	"author": "Niels Lange",
+	"version": "0.1.0",
+	"description": "Show the weather for a certain location.",
+	"homepage": "https://github.com/nielslange/smntcs-weather-block/",
+	"keywords": [
+		"wordpress",
+		"weather block"
+	],
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"start": "wp-scripts start",
+		"packages-update": "wp-scripts packages-update"
+	},
+	"dependencies": {
+		"@wordpress/block-editor": "^7.0.2",
+		"@wordpress/blocks": "^11.1.0",
+		"eslint": "^7.32.0",
+		"react-fetch-hook": "^1.8.5"
+	},
+	"devDependencies": {
+		"@wordpress/i18n": "^4.2.2",
+		"@wordpress/prettier-config": "^1.1.1",
+		"@wordpress/scripts": "^18.0.1"
+	}
+}
