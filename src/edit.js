@@ -28,7 +28,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				<PanelBody title="Settings" initialOpen={ true }>
 					<TextControl
 						label="API key"
-						help="The https://openweathermap.org/ API key."
+						help="The OpenWeather API key."
 						value={ appid }
 						onChange={ ( value ) =>
 							setAttributes( {
@@ -38,12 +38,12 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 					<SelectControl
 						label="Unit"
-						help="The temperature unit in °F, °C or °K."
+						help="The temperature in °C, °F or °K."
 						value={ unit }
 						options={ [
-							{ label: 'Fahrenheit', value: 'standard' },
 							{ label: 'Celsius', value: 'metric' },
-							{ label: 'Kelvin', value: 'imperial' },
+							{ label: 'Fahrenheit', value: 'imperial' },
+							{ label: 'Kelvin', value: 'standard' },
 						] }
 						onChange={ ( value ) =>
 							setAttributes( {
