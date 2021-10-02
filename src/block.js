@@ -1,22 +1,19 @@
+/**
+ * External dependencies
+ */
 import useFetch from 'react-fetch-hook';
-import NumberFormat from 'react-number-format';
+import {
+	WiThermometer,
+	WiThermometerExterior,
+	WiHumidity,
+	WiStrongWind,
+} from 'react-icons/wi';
 
 /**
- * Get temperature.
- *
- * @param {string} temp The temperature without units.
- * @return {string} The temperature with units.
+ * Internal dependencies
  */
-function getTemperature( temp ) {
-	switch ( settings.units ) {
-		case 'I':
-			return `${ temp }°F`;
-		case 'S':
-			return `${ temp }°K`;
-		default:
-			return `${ temp }°C`;
-	}
-}
+import style from './style.scss';
+import { formatTemp } from './util';
 
 /**
  * Export Block
@@ -26,16 +23,7 @@ function getTemperature( temp ) {
  */
 export default function Block( { appid, unit, city } ) {
 	// OpenWeather API endpoint
-	let url = 'https://api.openweathermap.org/data/2.5/weather';
-
-	// Add API key
-	url += '?appid=' + appid;
-
-	// Add unit
-	url += '&units=' + unit;
-
-	// Add city
-	url += '&q=' + city;
+	let url = `https://api.openweathermap.org/data/2.5/weather?appid=${ appid }&units=${ unit }&q=${ city }`;
 
 	const { isLoading, data, error } = useFetch( url );
 
@@ -55,53 +43,37 @@ export default function Block( { appid, unit, city } ) {
 	}
 
 	const icon = `http://openweathermap.org/img/wn/${ data.weather[ 0 ].icon }@2x.png`;
+	const cityName = data.name;
+	const currentTemp = formatTemp( unit, data.main.temp );
+	const maxTemp = formatTemp( unit, data.main.temp_max );
+	const minTemp = formatTemp( unit, data.main.temp_min );
+	const condition = data.weather[ 0 ].description;
+	const humidity = data.main.humidity;
+	const windSpeed = data.wind.speed;
 
 	return (
 		<>
-			<table>
-				<tr>
-					<th>icon</th>
-					<td>
-						<img src={ icon } alt="" />
-					</td>
-				</tr>
-				<tr>
-					<th>city</th>
-					<td>{ data.name }</td>
-				</tr>
-				<tr>
-					<th>condition</th>
-					<td>{ data.weather[ 0 ].description }</td>
-				</tr>
-				<tr>
-					<th>currentTemp</th>
-					<td>Math.round({ data.main.temp })</td>
-				</tr>
-				<tr>
-					<th>minMaxTemp</th>
-					<td>
-						{ data.main.temp_min } - { data.main.temp_max }
-					</td>
-				</tr>
-				<tr>
-					<th>rain</th>
-					<td>{ data.main.humidity }%</td>
-				</tr>
-				<tr>
-					<th>wind</th>
-					<td>{ data.wind.speed }km/h</td>
-				</tr>
-			</table>
-			{ /* <div className="weather">
-				<div id="icon"></div>
-				<div id="city">city: { data.name }</div>
-				<div id="condition">condition</div>
-				<div id="currentTemp">currentTemp</div>
-				<div id="minMaxTemp">minMaxTemp</div>
-				<div id="rain">rain</div>
-				<div id="wind">wind</div>
-			</div> */ }
-			<pre>{ JSON.stringify( data, null, 2 ) }</pre>
+			<div className="weather">
+				<div className="center icon">
+					<img src={ icon } alt="" />
+				</div>
+				<div className="center city">{ cityName }</div>
+				<div className="center condition">{ condition }</div>
+				<div className="center currentTemp">{ currentTemp }</div>
+				<div className="center maxTemp">
+					<WiThermometer /> { maxTemp }
+				</div>
+				<div className="center minTemp">
+					<WiThermometerExterior /> { minTemp }
+				</div>
+				<div className="center humidity">
+					<WiHumidity /> { humidity }
+				</div>
+				<div className="center windSpeed">
+					<WiStrongWind /> { windSpeed }
+				</div>
+			</div>
+			{ /* <pre> JSON.stringify( data, null, 2 ) }</pre> */ }
 		</>
 	);
 }
