@@ -12,8 +12,13 @@ import {
 /**
  * Internal dependencies
  */
-import style from './style.scss';
-import { formatTemp } from './util';
+import {
+	formatTemp,
+	formatHumidity,
+	formatWindSpeed,
+	formatWindDirection,
+} from './util';
+import './style.scss';
 
 /**
  * Export Block
@@ -48,8 +53,12 @@ export default function Block( { appid, unit, city } ) {
 	const maxTemp = formatTemp( unit, data.main.temp_max );
 	const minTemp = formatTemp( unit, data.main.temp_min );
 	const condition = data.weather[ 0 ].description;
-	const humidity = data.main.humidity;
-	const windSpeed = data.wind.speed;
+	const humidity = formatHumidity( data.main.humidity );
+	const windSpeed = formatWindSpeed( unit, data.wind.speed );
+	const windDirection = formatWindDirection( data.wind.deg );
+	const wind = `${ windSpeed } ${ windDirection }`;
+
+	console.info( windDirection );
 
 	return (
 		<>
@@ -69,11 +78,11 @@ export default function Block( { appid, unit, city } ) {
 				<div className="center humidity">
 					<WiHumidity /> { humidity }
 				</div>
-				<div className="center windSpeed">
-					<WiStrongWind /> { windSpeed }
+				<div className="center windS">
+					<WiStrongWind /> { wind }
 				</div>
 			</div>
-			{ /* <pre> JSON.stringify( data, null, 2 ) }</pre> */ }
+			<pre>{ JSON.stringify( data, null, 2 ) }</pre>
 		</>
 	);
 }
